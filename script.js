@@ -23,6 +23,24 @@ function play(userChoice) {
         result = '당신이 졌습니다!';
     }
 
+    // 컴퓨터 얼굴 변화
+    const face = document.getElementById('computer-face');
+    // 컴퓨터 대사
+    const lineElement = document.getElementById('computer-line');
+    if(result === '비겼습니다!') {
+        face.innerText = '🤔';
+        lineElement.innerText = '쫌 치는군요 닝겐';
+        speak('쫌 치는군요 닝겐');
+    } else if (result === '당신이 이겼습니다!') {
+        face.innerText = '🤬';
+        lineElement.innerText = 'shit';
+        speak('shit');
+    } else {
+        face.innerText = '👽';
+        lineElement.innerText = '멸종해라';
+        speak('멸종해라');
+    }
+
     // 점수판 업데이트
     document.getElementById('user-score').innerText = userScore;
     document.getElementById('computer-score').innerText = computerScore;
@@ -43,10 +61,13 @@ function resetGame() {
     computerScore = 0;
     drawScore = 0;
 
+    document.getElementById('computer-face').innerText = '🤖';
+    document.getElementById('computer-line').innerText = '덤벼라 인간';
     document.getElementById('user-score').innerText = userScore;
     document.getElementById('computer-score').innerText = computerScore;
     document.getElementById('draw-score').innerText = drawScore;
     document.getElementById('result').innerText = '점수가 초기화되었습니다!';
+    speak('덤벼라 인간');
 
     // localStorage 초기화
     localStorage.setItem('userScore', 0);
@@ -60,3 +81,10 @@ window.onload = function () {
     document.getElementById('computer-score').innerText = computerScore;
     document.getElementById('draw-score').innerText = drawScore;
 };
+
+// TTS
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ko-KR';
+    speechSynthesis.speak(utterance);
+}
